@@ -1,30 +1,63 @@
-// 🌙 Theme Toggle Function (Global)
-function toggleTheme() {
-  document.body.classList.toggle("light-mode");
-
-  const isLight = document.body.classList.contains("light-mode");
-
-  // Save theme
-  localStorage.setItem("theme", isLight ? "light" : "dark");
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Load Saved Theme on Refresh
-  const savedTheme = localStorage.getItem("theme");
 
-  if (savedTheme === "light") {
-    document.body.classList.add("light-mode");
-  }
+  const loginScreen = document.getElementById("loginScreen");
+  const app = document.getElementById("app");
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
 
   const cryptoContainer = document.getElementById("cryptoContainer");
   const favList = document.getElementById("favList");
-  const searchInput = document.getElementById("search");
-  const ctx = document.getElementById("priceChart");
   const clearBtn = document.getElementById("clearBtn");
+  const themeBtn = document.getElementById("themeBtn");
+  const portfolioContainer = document.getElementById("portfolioContainer");
 
-  let chart;
-  let allCoins = [];
+  let portfolioChart;
 
+  /* LOGIN SYSTEM */
+  if (localStorage.getItem("user")) {
+    loginScreen.style.display = "none";
+    app.style.display = "block";
+  }
+
+  loginBtn.addEventListener("click", () => {
+    const username = document.getElementById("username").value;
+    if (username) {
+      localStorage.setItem("user", username);
+      location.reload();
+    }
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("user");
+    location.reload();
+  });
+
+  /* THEME */
+  if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light-mode");
+  }
+
+  themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    localStorage.setItem("theme",
+      document.body.classList.contains("light-mode") ? "light" : "dark"
+    );
+  });
+
+  /* TRADINGVIEW */
+  function loadChart(symbol) {
+    document.getElementById("tradingview_chart").innerHTML = "";
+
+    new TradingView.widget({
+      autosize: true,
+      symbol: symbol,
+      interval: "60",
+      theme: document.body.classList.contains("light-mode") ? "light" : "dark",
+      container_id: "tradingview_chart"
+    });
+  }
+
+  /* WISHLIST */
   function getWishlist() {
     return JSON.parse(localStorage.getItem("wishlist")) || [];
   }
@@ -33,155 +66,125 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("wishlist", JSON.stringify(list));
   }
 
-  async function loadCrypto() {
-    const res = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&price_change_percentage=24h"
-    );
+  clearBtn.addEventListener("click", () => {
+    localStorage.removeItem("wishlist");
+    favList.innerHTML = "";
+    refreshHearts();
+  });
 
-    const data = await res.json();
-    allCoins = data;
-    displayCoins(data);
+  function refreshHearts() {
+    document.querySelectorAll(".heart").forEach(h => h.classList.remove("active"));
+    getWishlist().forEach(id => {
+      const el = document.querySelector(`[data-id="${id}"]`);
+      if (el) el.classList.add("active");
+    });
   }
 
-  function displayCoins(coins) {
-    cryptoContainer.innerHTML = "";
+  /* LIVE PRICE WEBSOCKET (BINANCE) */
+  function startWebSocket(symbol) {
+    const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}usdt@trade`);
 
-    const wishlist = getWishlist();
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      const priceElement = document.getElementById(symbol);
+      if (priceElement) {
+        priceElement.textContent = `$${parseFloat(data.p).toFixed(2)}`;
+      }
+    };
+  }
 
-    coins.forEach(coin => {
+  /* LOAD COINS */
+  async function loadCrypto() {
+    const res = await fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=6&page=1"
+    );
+    const data = await res.json();
 
-      const isFav = wishlist.includes(coin.id);
+    data.forEach(coin => {
 
       const card = document.createElement("div");
       card.className = "crypto-card";
 
+      const wishlist = getWishlist();
+      const isFav = wishlist.includes(coin.id);
+
       card.innerHTML = `
-        <span class="heart ${isFav ? "active" : ""}">❤</span>
-
-        <!-- 🪙 Coin Image -->
-        <img src="${coin.image}" alt="${coin.name}" class="coin-img">
-
-        <h3>${coin.name}</h3>
-        <p>Price: $${coin.current_price}</p>
-        <p class="${coin.price_change_percentage_24h >= 0 ? "profit" : "loss"}">
-          24h: ${coin.price_change_percentage_24h.toFixed(2)}%
-        </p>
-        <button class="chart-btn">Chart</button>
+        <img src="${coin.image}" class="coin-img">
+        ${coin.name} 
+        <span id="${coin.symbol.toUpperCase()}">$${coin.current_price}</span>
+        <span class="heart ${isFav ? "active" : ""}" data-id="${coin.id}">❤</span>
+        <input type="number" placeholder="Qty" class="portfolio-input" data-symbol="${coin.symbol}">
       `;
 
-      // ❤️ Heart Toggle
-      const heart = card.querySelector(".heart");
-      heart.addEventListener("click", () => {
-        toggleWishlist(coin.id);
-        heart.classList.toggle("active");
+      card.addEventListener("click", () => {
+        loadChart(`BINANCE:${coin.symbol.toUpperCase()}USDT`);
       });
 
-      // Chart
-      card.querySelector(".chart-btn").addEventListener("click", () => {
-        showChart(coin.id);
+      const heart = card.querySelector(".heart");
+      heart.addEventListener("click", (e) => {
+        e.stopPropagation();
+        let wishlist = getWishlist();
+
+        if (wishlist.includes(coin.id)) {
+          wishlist = wishlist.filter(c => c !== coin.id);
+        } else {
+          wishlist.push(coin.id);
+        }
+
+        saveWishlist(wishlist);
+        refreshHearts();
+        renderWishlist(data);
       });
+
+      startWebSocket(coin.symbol);
 
       cryptoContainer.appendChild(card);
     });
+
+    renderWishlist(data);
+    createPortfolioChart();
   }
 
-  function toggleWishlist(id) {
-    let wishlist = getWishlist();
-
-    if (wishlist.includes(id)) {
-      wishlist = wishlist.filter(c => c !== id);
-    } else {
-      wishlist.push(id);
-    }
-
-    saveWishlist(wishlist);
-    renderWishlist();
-  }
-
-  function clearWishlist() {
-    localStorage.removeItem("wishlist");
-    renderWishlist();
-    displayCoins(allCoins);
-  }
-
-  function renderWishlist() {
+  function renderWishlist(coins) {
     favList.innerHTML = "";
     const wishlist = getWishlist();
 
     wishlist.forEach(id => {
-
-      const coin = allCoins.find(c => c.id === id);
+      const coin = coins.find(c => c.id === id);
       if (!coin) return;
 
       const li = document.createElement("li");
-
       li.innerHTML = `
-        <span>
-          ${coin.name} - $${coin.current_price}
-          <small class="${coin.price_change_percentage_24h >= 0 ? "profit" : "loss"}">
-            (${coin.price_change_percentage_24h.toFixed(2)}%)
-          </small>
-        </span>
-        <button class="remove-btn">❌</button>
+        ${coin.name}
+        <button class="remove">❌</button>
       `;
 
-      // Remove with animation
-      li.querySelector(".remove-btn").addEventListener("click", () => {
-        li.classList.add("removing");
-
-        setTimeout(() => {
-          toggleWishlist(id);
-          displayCoins(allCoins);
-        }, 300);
+      li.querySelector(".remove").addEventListener("click", () => {
+        let updated = wishlist.filter(c => c !== id);
+        saveWishlist(updated);
+        renderWishlist(coins);
+        refreshHearts();
       });
 
       favList.appendChild(li);
     });
   }
 
-  async function showChart(id) {
-    const res = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`
-    );
+  function createPortfolioChart() {
+    const ctx = document.getElementById("portfolioChart");
 
-    const data = await res.json();
-
-    const prices = data.prices.map(p => p[1]);
-    const labels = data.prices.map(p =>
-      new Date(p[0]).toLocaleDateString()
-    );
-
-    if (chart) chart.destroy();
-
-    chart = new Chart(ctx, {
-      type: "line",
+    portfolioChart = new Chart(ctx, {
+      type: "doughnut",
       data: {
-        labels,
+        labels: ["BTC", "ETH", "Others"],
         datasets: [{
-          label: "7 Day Price (USD)",
-          data: prices,
-          borderWidth: 2
+          data: [40, 35, 25]
         }]
       }
     });
   }
 
-  function filterCoins() {
-    const value = searchInput.value.toLowerCase();
-    const filtered = allCoins.filter(c =>
-      c.name.toLowerCase().includes(value)
-    );
-
-    displayCoins(filtered);
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener("keyup", filterCoins);
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener("click", clearWishlist);
-  }
-
   loadCrypto();
+  loadChart("BINANCE:BTCUSDT");
+
 });

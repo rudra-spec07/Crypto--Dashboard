@@ -3,46 +3,63 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CryptoDash Ultimate</title>
+<title>CryptoDash Pro</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="./CSS/dashboard.css">
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
 
-<header class="topbar">
-  <h1>🚀 CryptoDash</h1>
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-screen">
+  <h2>Login to CryptoDash</h2>
+  <input type="text" id="username" placeholder="Enter username">
+  <button id="loginBtn">Login</button>
+</div>
 
-  <div class="nav-buttons">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="portfolio.html">Portfolio</a>
-    <button onclick="toggleTheme()">🌙</button>
-    <button onclick="logout()">Logout</button>
-  </div>
+<!-- MAIN APP -->
+<div id="app" style="display:none;">
+
+<header class="topbar">
+  <div class="logo">🚀 CryptoDash Pro</div>
+
+  <nav class="nav-buttons">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="portfolio.html" class="nav-link">Portfolio</a>
+    <button id="themeBtn">🌙</button>
+    <button id="logoutBtn">Logout</button>
+  </nav>
 </header>
 
-<div class="container">
+<div class="layout">
 
-<aside class="sidebar">
-  <h2>Wishlist</h2>
-  <ul id="favList"></ul>
-  <button id="clearBtn">Clear All</button>
+  <!-- LEFT -->
+  <aside class="sidebar">
+    <h2>Wishlist</h2>
+    <ul id="favList"></ul>
+    <button id="clearBtn">Clear All</button>
+  </aside>
 
+  <!-- CENTER -->
+  <main class="main-chart">
+    <div id="tradingview_chart"></div>
+  </main>
 
-</aside>
+  <!-- RIGHT -->
+  <aside class="right-panel">
+    <h2>Top Coins</h2>
+    <div id="cryptoContainer"></div>
 
-<main class="dashboard">
+    <h2>Portfolio</h2>
+    <div id="portfolioContainer"></div>
+    <canvas id="portfolioChart"></canvas>
+  </aside>
 
-  <!-- SEARCH BAR NOW HERE -->
-  <input type="text" id="search" placeholder="Search crypto..." onkeyup="filterCoins()">
-
-  <div id="cryptoContainer" class="crypto-grid"></div>
-
-  <canvas id="priceChart"></canvas>
-
-</main>
-
+</div>
 </div>
 
 <script src="./JS/dashboard.js"></script>

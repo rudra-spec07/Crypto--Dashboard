@@ -1,7 +1,3 @@
-/* =========================
-   GLOBAL STYLES
-========================= */
-
 * {
   margin: 0;
   padding: 0;
@@ -10,30 +6,39 @@
 }
 
 body {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #ffffff;
-  min-height: 100vh;
-  transition: 0.3s ease;
+  background: #0f172a;
+  color: white;
+  transition: 0.3s;
 }
 
-/* =========================
-   TOPBAR
-========================= */
+/* LOGIN */
+.login-screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
 
+.login-screen input {
+  padding: 10px;
+  width: 200px;
+}
+
+.login-screen button {
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+/* TOPBAR */
 .topbar {
+  height: 60px;
+  background: #111827;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 40px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.topbar h1 {
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  padding: 0 20px;
 }
 
 .nav-buttons {
@@ -42,296 +47,105 @@ body {
   align-items: center;
 }
 
-.nav-buttons a,
-.nav-buttons button {
-  padding: 8px 14px;
-  background: rgba(255,255,255,0.1);
-  border: none;
-  border-radius: 6px;
+.nav-link {
   color: white;
   text-decoration: none;
-  cursor: pointer;
-  transition: 0.3s ease;
 }
 
-.nav-buttons a:hover,
-.nav-buttons button:hover {
-  background: #00c6ff;
-  color: #000;
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr 350px;
+  height: calc(100vh - 60px);
 }
 
-/* =========================
-   LAYOUT STRUCTURE
-========================= */
-
-.container {
-  display: flex;
-  min-height: calc(100vh - 70px);
-}
-
-/* =========================
-   SIDEBAR
-========================= */
-
+/* SIDEBAR */
 .sidebar {
-  width: 260px;
-  background: rgba(0,0,0,0.4);
-  padding: 25px;
-  backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255,255,255,0.1);
+  background: #111827;
+  padding: 15px;
+  overflow-y: auto;
 }
 
-.sidebar h2 {
-  margin-bottom: 20px;
-  font-size: 20px;
+.sidebar button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 6px;
+  background: red;
+  border: none;
+  color: white;
 }
 
-#favList {
-  list-style: none;
-  margin-bottom: 20px;
+/* CHART */
+#tradingview_chart {
+  height: 100%;
 }
 
-#favList li {
-  background: rgba(255,255,255,0.08);
+/* RIGHT PANEL */
+.right-panel {
+  background: #111827;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+/* CRYPTO CARD */
+.crypto-card {
+  background: #1f2937;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: relative;
 }
 
-#favList button {
-  background: crimson;
-  border: none;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
+.coin-img {
+  width: 20px;
+  margin-right: 5px;
 }
 
-#clearBtn {
-  width: 100%;
-  padding: 8px;
-  border: none;
-  background: #ff4d4d;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#clearBtn:hover {
-  background: #ff1a1a;
-}
-
-/* =========================
-   DASHBOARD MAIN
-========================= */
-
-.dashboard {
-  flex: 1;
-  padding: 30px;
-}
-
-/* Search Bar */
-
-#search {
-  width: 100%;
-  padding: 12px 15px;
-  border-radius: 8px;
-  border: none;
-  margin-bottom: 25px;
-  font-size: 16px;
-  outline: none;
-}
-
-/* =========================
-   CRYPTO GRID
-========================= */
-
-.crypto-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-bottom: 40px;
-}
-
-.crypto-card {
-  background: rgba(255,255,255,0.08);
-  padding: 20px;
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  transition: 0.3s ease;
-  cursor: pointer;
-}
-
-.crypto-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255,255,255,0.15);
-}
-
-.crypto-card h3 {
-  margin-bottom: 10px;
-}
-
-.crypto-card p {
-  margin-bottom: 6px;
-  font-size: 14px;
-}
-
-/* Add Button */
-
-.crypto-card button {
-  margin-top: 10px;
-  padding: 6px 10px;
-  border: none;
-  background: #00c6ff;
-  color: black;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.crypto-card button:hover {
-  background: #00a2cc;
-}
-
-/* =========================
-   CHART
-========================= */
-
-#priceChart {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-/* =========================
-   DARK / LIGHT MODE
-========================= */
-
-.light-mode {
-  background: #f5f5f5;
-  color: #222;
-}
-
-.light-mode .topbar,
-.light-mode .sidebar {
-  background: #ffffff;
-  color: #000;
-}
-
-.light-mode .crypto-card {
-  background: #ffffff;
-  color: #000;
-}
-
-.light-mode #search {
-  background: #eee;
-}
-
-/* =========================
-   RESPONSIVE DESIGN
-========================= */
-
-@media (max-width: 900px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-
-  .dashboard {
-    padding: 20px;
-  }
-}
-
-@media (max-width: 600px) {
-
-  .topbar {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .nav-buttons {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  #search {
-    font-size: 14px;
-  }
-
-  .crypto-grid {
-    grid-template-columns: 1fr;
-  }
-}
 .heart {
-  color: #aaa;
+  position: absolute;
+  right: 10px;
+  top: 10px;
   cursor: pointer;
-  font-size: 20px;
-  transition: 0.3s;
+  color: gray;
 }
 
 .heart.active {
   color: red;
 }
-/* =========================
-   LIGHT MODE STYLING
-========================= */
 
+/* PORTFOLIO INPUT */
+.portfolio-input {
+  width: 60px;
+  margin-left: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+
+  .right-panel {
+    order: 3;
+  }
+
+  .main-chart {
+    order: 1;
+    height: 400px;
+  }
+}
+
+/* LIGHT MODE */
 .light-mode {
-  background: #f4f6f9;
-  color: #222;
+  background: #f3f4f6;
+  color: black;
 }
 
-.light-mode .topbar {
-  background: #ffffff;
-  color: #000;
-  border-bottom: 1px solid #ddd;
+.light-mode .topbar,
+.light-mode .sidebar,
+.light-mode .right-panel {
+  background: white;
 }
-
-.light-mode .sidebar {
-  background: #ffffff;
-  border-right: 1px solid #ddd;
-}
-
-.light-mode .crypto-card {
-  background: #ffffff;
-  color: #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-.light-mode #search {
-  background: #ffffff;
-  border: 1px solid #ccc;
-  color: #000;
-}
-
-.light-mode #priceChart {
-  background: #ffffff;
-}
-/* Fix Nav Buttons Text in Light Mode */
-.light-mode .nav-buttons a,
-.light-mode .nav-buttons button {
-  color: #000;
-  background: #f1f1f1;
-}
-
-.light-mode .nav-buttons a:hover,
-.light-mode .nav-buttons button:hover {
-  background: #ddd;
-  color: #000;
-}
-.coin-img {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 10px;
-}
-
-
