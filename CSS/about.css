@@ -1,0 +1,121 @@
+/* ============================= */
+/* GLOBAL RESET */
+/* ============================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c1c);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  color: #ffffff;
+}
+
+/* Animated Background */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.topbar {
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.topbar h1 {
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: #00f5ff;
+}
+
+/* ============================= */
+/* MAIN CONTAINER */
+/* ============================= */
+
+.about-container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================= */
+/* HEADINGS */
+/* ============================= */
+
+.about-container h2 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: #00f5ff;
+  border-left: 4px solid #00f5ff;
+  padding-left: 10px;
+}
+
+.about-container h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+/* ============================= */
+/* PARAGRAPHS */
+/* ============================= */
+
+.about-container p {
+  line-height: 1.7;
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #dddddd;
+}
+
+/* ============================= */
+/* RISK LIST STYLE */
+/* ============================= */
+
+.about-container p:last-of-type {
+  white-space: pre-line;
+}
+
+/* ============================= */
+/* HOVER EFFECT SECTIONS */
+/* ============================= */
+
+.about-container h3:hover {
+  color: #00f5ff;
+  transform: translateX(5px);
+  transition: 0.3s;
+}
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 768px) {
+  .about-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .topbar h1 {
+    font-size: 24px;
+  }
+}

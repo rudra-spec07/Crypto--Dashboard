@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoDash Ultimate</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="./CSS/dashboard.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>🚀 CryptoDash</h1>
+
+  <div class="nav-buttons">
+    <a href="about.html">About</a>
+    <a href="portfolio.html">Portfolio</a>
+    <button onclick="toggleTheme()">🌙</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<div class="container">
+
+<aside class="sidebar">
+  <h2>Wishlist</h2>
+  <ul id="favList"></ul>
+  <button id="clearBtn">Clear All</button>
+
+
+</aside>
+
+<main class="dashboard">
+
+  <!-- SEARCH BAR NOW HERE -->
+  <input type="text" id="search" placeholder="Search crypto..." onkeyup="filterCoins()">
+
+  <div id="cryptoContainer" class="crypto-grid"></div>
+
+  <canvas id="priceChart"></canvas>
+
+</main>
+
+</div>
+
+<script src="./JS/dashboard.js"></script>
+</body>
+</html>
