@@ -28,18 +28,47 @@ body {
 /* HEADER */
 /* ============================= */
 
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
 .topbar {
-  text-align: center;
-  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  padding: 18px 40px;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.topbar h1 {
-  font-size: 32px;
-  letter-spacing: 1px;
-  color: #00f5ff;
+/* Push nav buttons fully right */
+.nav-buttons {
+  margin-left: auto;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Nav Button Style */
+.nav-buttons a,
+.nav-buttons button {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.nav-buttons a:hover,
+.nav-buttons button:hover {
+  background: #00c6ff;
+  color: #000;
+  transform: translateY(-2px);
 }
 
 /* ============================= */
@@ -119,3 +148,47 @@ body {
     font-size: 24px;
   }
 }
+/* ============================= */
+/* LIGHT THEME */
+/* ============================= */
+
+body.light-theme {
+  background: linear-gradient(-45deg, #f5f7fa, #c3cfe2, #e2ebf0, #ffffff);
+  color: #111111;
+}
+
+body.light-theme .topbar {
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-theme .nav-buttons a,
+body.light-theme .nav-buttons button {
+  background: rgba(0,0,0,0.05);
+  color: #111111;
+}
+
+body.light-theme .nav-buttons a:hover,
+body.light-theme .nav-buttons button:hover {
+  background: #0077ff;
+  color: #ffffff;
+}
+
+body.light-theme .about-container {
+  background: rgba(255, 255, 255, 0.8);
+  color: #111111;
+}
+
+body.light-theme .about-container h2 {
+  color: #0077ff;
+  border-left: 4px solid #0077ff;
+}
+
+body.light-theme .about-container h3 {
+  color: #222222;
+}
+
+body.light-theme .about-container p {
+  color: #333333;
+}
+

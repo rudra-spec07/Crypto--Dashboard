@@ -4,6 +4,46 @@ body {
   background: linear-gradient(135deg, #141e30, #243b55);
   color: white;
 }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.topbar h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav-buttons a,
+.nav-buttons button {
+  padding: 8px 14px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.nav-buttons a:hover,
+.nav-buttons button:hover {
+  background: #00c6ff;
+  color: #000;
+}
+
 
 .portfolio-container {
   padding: 40px;
@@ -29,3 +69,43 @@ h1 {
   background: #00f5ff;
   color: black;
 }
+body.light-theme {
+  background: linear-gradient(-45deg, #f5f7fa, #c3cfe2, #e2ebf0, #ffffff);
+  color: #111111;
+}
+
+body.light-theme .topbar {
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+body.light-theme .nav-buttons a,
+body.light-theme .nav-buttons button {
+  background: rgba(0,0,0,0.05);
+  color: #111111;
+}
+
+body.light-theme .nav-buttons a:hover,
+body.light-theme .nav-buttons button:hover {
+  background: #0077ff;
+  color: #ffffff;
+}
+
+body.light-theme .about-container {
+  background: rgba(255, 255, 255, 0.8);
+  color: #111111;
+}
+
+body.light-theme .about-container h2 {
+  color: #0077ff;
+  border-left: 4px solid #0077ff;
+}
+
+body.light-theme .about-container h3 {
+  color: #222222;
+}
+
+body.light-theme .about-container p {
+  color: #333333;
+}
+
