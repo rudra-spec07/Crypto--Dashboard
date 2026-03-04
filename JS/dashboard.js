@@ -8,7 +8,6 @@ function toggleTheme() {
   localStorage.setItem("theme", isLight ? "light" : "dark");
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   // Load Saved Theme on Refresh
   const savedTheme = localStorage.getItem("theme");
@@ -58,6 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       card.innerHTML = `
         <span class="heart ${isFav ? "active" : ""}">❤</span>
+
+        <!-- 🪙 Coin Image -->
+        <img src="${coin.image}" alt="${coin.name}" class="coin-img">
+
         <h3>${coin.name}</h3>
         <p>Price: $${coin.current_price}</p>
         <p class="${coin.price_change_percentage_24h >= 0 ? "profit" : "loss"}">
