@@ -23,35 +23,100 @@ body {
 
 .login-screen input {
   padding: 10px;
-  width: 200px;
+  width: 220px;
+  border-radius: 5px;
+  border: none;
 }
 
 .login-screen button {
   padding: 8px 20px;
   cursor: pointer;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 5px;
 }
 
 /* TOPBAR */
+/* ============================= */
+/* GLASS TOPBAR (Same As About) */
+/* ============================= */
+
 .topbar {
-  height: 60px;
-  background: #111827;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 18px 40px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  flex-wrap: wrap;
 }
 
+/* Logo Styling */
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Push nav fully right */
 .nav-buttons {
+  margin-left: auto;
   display: flex;
   gap: 15px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
-.nav-link {
-  color: white;
+/* Nav Buttons */
+.nav-buttons a,
+.nav-buttons button {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 500;
   text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+/* Hover Effect */
+.nav-buttons a:hover,
+.nav-buttons button:hover {
+  background: #00c6ff;
+  color: #000;
+  transform: translateY(-2px);
+}
+
+/* ============================= */
+/* LIGHT MODE TOPBAR FIX */
+/* ============================= */
+
+.light-mode .topbar {
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.light-mode .logo {
+  color: #111111;
+}
+
+.light-mode .nav-buttons a,
+.light-mode .nav-buttons button {
+  background: rgba(0,0,0,0.05);
+  color: #111111;
+}
+
+.light-mode .nav-buttons a:hover,
+.light-mode .nav-buttons button:hover {
+  background: #0077ff;
+  color: #ffffff;
+}
+
+
+/* LAYOUT */
 .layout {
   display: grid;
   grid-template-columns: 250px 1fr 350px;
@@ -65,18 +130,29 @@ body {
   overflow-y: auto;
 }
 
+.sidebar h2 {
+  margin-bottom: 10px;
+}
+
 .sidebar button {
   margin-top: 10px;
   width: 100%;
-  padding: 6px;
+  padding: 8px;
   background: red;
   border: none;
   color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* CHART */
+.main-chart {
+  padding: 10px;
+}
+
 #tradingview_chart {
   height: 100%;
+  min-height: 400px;
 }
 
 /* RIGHT PANEL */
@@ -86,6 +162,10 @@ body {
   overflow-y: auto;
 }
 
+.right-panel h2 {
+  margin: 10px 0;
+}
+
 /* CRYPTO CARD */
 .crypto-card {
   background: #1f2937;
@@ -93,6 +173,7 @@ body {
   margin-bottom: 10px;
   border-radius: 6px;
   position: relative;
+  color: white;
 }
 
 .coin-img {
@@ -106,6 +187,7 @@ body {
   top: 10px;
   cursor: pointer;
   color: gray;
+  font-size: 18px;
 }
 
 .heart.active {
@@ -118,8 +200,21 @@ body {
   margin-left: 10px;
 }
 
-/* RESPONSIVE */
-@media (max-width: 900px) {
+/* ========================= */
+/* RESPONSIVE FIX */
+/* ========================= */
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 200px 1fr;
+  }
+
+  .right-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
   }
@@ -128,17 +223,33 @@ body {
     order: 2;
   }
 
-  .right-panel {
-    order: 3;
-  }
-
   .main-chart {
     order: 1;
     height: 400px;
   }
+
+  .right-panel {
+    display: block;
+    order: 3;
+  }
+
+  .topbar {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .nav-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
-/* LIGHT MODE */
+/* ========================= */
+/* LIGHT MODE FIX */
+/* ========================= */
+
 .light-mode {
   background: #f3f4f6;
   color: black;
@@ -148,4 +259,25 @@ body {
 .light-mode .sidebar,
 .light-mode .right-panel {
   background: white;
+  color: black;
+}
+
+.light-mode .nav-link {
+  color: black;
+}
+
+.light-mode .crypto-card {
+  background: #e5e7eb;
+  color: black;
+}
+
+.light-mode .sidebar button {
+  background: #dc2626;
+  color: white;
+}
+
+.light-mode #themeBtn,
+.light-mode #logoutBtn {
+  background: #e5e7eb;
+  color: black;
 }
